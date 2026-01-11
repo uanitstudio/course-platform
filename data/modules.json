@@ -1,0 +1,65 @@
+{
+  "modules": [
+    {
+      "id": "01",
+      "title": "Подготовка рабочей среды",
+      "description": "Терминал, редактор кода, базовые навыки работы с файлами",
+      "duration": "Неделя 1-2",
+      "exercises": 2,
+      "completed": false
+    },
+    {
+      "id": "02",
+      "title": "Работа с AI-ассистентами",
+      "description": "Принципы промптинга, типы запросов, работа с контекстом",
+      "duration": "Неделя 3-4",
+      "exercises": 1,
+      "completed": false
+    },
+    {
+      "id": "03",
+      "title": "Система контроля версий",
+      "description": "Git, ветки, коммиты, работа с GitHub",
+      "duration": "Неделя 5",
+      "exercises": 1,
+      "completed": false
+    },
+    {
+      "id": "04",
+      "title": "Технологический фундамент",
+      "description": "HTML, CSS, JavaScript — основы веб-разработки",
+      "duration": "Неделя 6-7",
+      "exercises": 1,
+      "completed": false
+    },
+    {
+      "id": "05",
+      "title": "Первый проект — TODO-приложение",
+      "description": "Создание полноценного приложения с нуля",
+      "duration": "Неделя 8-10",
+      "exercises": 1,
+      "completed": false
+    },
+    {
+      "id": "06",
+      "title": "API-интеграция",
+      "description": "Работа с внешними API, fetch, асинхронность",
+      "duration": "Неделя 11-13",
+      "exercises": 1,
+      "completed": false
+    },
+    {
+      "id": "07",
+      "title": "Расширение навыков",
+      "description": "Фреймворки, backend, дальнейший путь развития",
+      "duration": "Неделя 14+",
+      "exercises": 0,
+      "completed": false
+    }
+  ],
+  "platform": {
+    "name": "Вайб-кодинг",
+    "tagline": "С нуля до своего проекта",
+    "version": "1.0.0"
+  }
+}

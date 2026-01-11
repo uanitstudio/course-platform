@@ -1,0 +1,21 @@
+{
+  "name": "vibe-coding-course-platform",
+  "version": "1.0.0",
+  "description": "Платформа для курса по вайб-кодингу",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "education",
+    "course",
+    "vibe-coding"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "marked": "^17.0.1"
+  }
+}

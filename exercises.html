@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Упражнения — Вайб-кодинг</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .exercise-list {
+            list-style: none;
+            margin: 0;
+        }
+        .exercise-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        .exercise-item:hover {
+            border-color: var(--primary);
+        }
+        .exercise-item h3 {
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        .exercise-item p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .exercise-links {
+            display: flex;
+            gap: 12px;
+        }
+        .exercise-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .exercise-link.solution {
+            background: var(--success);
+        }
+        .exercise-link:hover {
+            opacity: 0.9;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">Вайб<span>-кодинг</span></a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="module-header">
+            <div class="breadcrumb">
+                <a href="index.html">← Назад к курсу</a>
+            </div>
+            <h1 id="pageTitle">Упражнения</h1>
+            <p id="pageDesc">Выберите упражнение для выполнения</p>
+        </div>
+        
+        <div class="content-section">
+            <ul class="exercise-list" id="exerciseList">
+                <!-- Заполняется JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Курс «Вайб-кодинг: с нуля до своего проекта»</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const moduleId = urlParams.get('module');
+        
+        const exercises = {
+            '01': [
+                { id: '01-01', title: 'Навигация в терминале', desc: 'Освойте базовые команды терминала: ls, cd, mkdir, rm и другие.', file: 'exercise-01-01-terminal-basics.md', solution: 'solution-01-01-terminal-basics.md' },
+                { id: '01-02', title: 'Настройка редактора кода', desc: 'Установите и настройте Cursor или VS Code для комфортной работы.', file: 'exercise-01-02-vscode-setup.md', solution: 'solution-01-02-vscode-setup.md' }
+            ],
+            '02': [
+                { id: '02-01', title: 'Эффективные промпты', desc: 'Научитесь писать чёткие и специфичные запросы для AI-ассистентов.', file: 'exercise-02-01-effective-prompts.md', solution: 'solution-02-01-effective-prompts.md' }
+            ],
+            '03': [
+                { id: '03-01', title: 'Первые коммиты', desc: 'Создайте репозиторий на GitHub и сделайте первые коммиты.', file: 'exercise-03-01-first-commits.md', solution: 'solution-03-01-first-commits.md' }
+            ],
+            '04': [
+                { id: '04-01', title: 'Верстаем страницу', desc: 'Создайте страницу "Обо мне" с использованием HTML и CSS.', file: 'exercise-04-01-html-css-page.md', solution: 'solution-04-01-html-css-page.md' }
+            ],
+            '05': [
+                { id: '05-01', title: 'TODO-приложение: базовая функциональность', desc: 'Создайте базовое TODO-приложение с добавлением, отметкой и удалением задач.', file: 'exercise-05-01-todo-basics.md', solution: 'solution-05-01-todo-basics.md' }
+            ],
+            '06': [
+                { id: '06-01', title: 'Работа с API', desc: 'Создайте страницу, которая загружает данные из JSONPlaceholder API.', file: 'exercise-06-01-api-users.md', solution: 'solution-06-01-api-users.md' }
+            ]
+        };
+        
+        const moduleNames = {
+            '01': 'Подготовка рабочей среды',
+            '02': 'Работа с AI-ассистентами',
+            '03': 'Система контроля версий',
+            '04': 'Технологический фундамент',
+            '05': 'Первый проект — TODO-приложение',
+            '06': 'API-интеграция'
+        };
+        
+        function init() {
+            if (!moduleId || !exercises[moduleId]) {
+                document.getElementById('exerciseList').innerHTML = '<p>Модуль не найден</p>';
+                return;
+            }
+            
+            document.getElementById('pageTitle').textContent = 
+                `Модуль ${moduleId}: ${moduleNames[moduleId]}`;
+            document.getElementById('pageDesc').textContent = 
+                `${exercises[moduleId].length} упражнений для закрепления материала`;
+            
+            const list = document.getElementById('exerciseList');
+            
+            exercises[moduleId].forEach(ex => {
+                const li = document.createElement('li');
+                li.className = 'exercise-item';
+                li.innerHTML = `
+                    <h3>Упражнение ${ex.id}</h3>
+                    <p>${ex.desc}</p>
+                    <div class="exercise-links">
+                        <a href="course-exercises/module-${moduleId}/${ex.file}" 
+                           class="exercise-link" target="_blank">
+                             📋 Условие
+                        </a>
+                        ${ex.solution ? `
+                            <a href="course-solutions/module-${moduleId}/${ex.solution}" 
+                               class="exercise-link solution" target="_blank">
+                               💡 Решение
+                            </a>
+                        ` : ''}
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+        
+        init();
+    </script>
+</body>
+</html>
