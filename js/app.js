@@ -74,6 +74,38 @@ async function showModulePage(moduleId) {
         return;
     }
     
+    // Показываем индикатор загрузки
+    app.innerHTML = `
+        <div class="container">
+            <div class="module-header">
+                <a href="index.html" class="back-link">← Назад к курсу</a>
+                <h1>Модуль ${module.id}: ${module.title}</h1>
+                <p>${module.description} · ${module.duration}</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>Теория</h2>
+                <div class="markdown-content loading">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Загрузка материала...</p>
+                    </div>
+                </div>
+            </div>
+            
+            ${module.exercises > 0 ? `
+                <div class="content-section">
+                    <h2>Упражнения</h2>
+                    <p>Выполните упражнения для закрепления материала.</p>
+                    <a href="exercises.html?module=${moduleId}" 
+                       class="btn" target="_blank">
+                        Открыть упражнения →
+                    </a>
+                </div>
+            ` : ''}
+        </div>
+    `;
+    
     // Загружаем материал из markdown файла
     let content = '';
     try {
@@ -83,6 +115,7 @@ async function showModulePage(moduleId) {
         }
     } catch (error) {
         console.error('Ошибка загрузки контента:', error);
+        content = '<p>Ошибка загрузки материала</p>';
     }
     
     const progress = getProgress();
@@ -99,7 +132,7 @@ async function showModulePage(moduleId) {
             <div class="content-section">
                 <h2>Теория</h2>
                 <div class="markdown-content">
-                    ${content || '<p>Материал загружается...</p>'}
+                    ${content || '<p>Материал недоступен</p>'}
                 </div>
             </div>
             

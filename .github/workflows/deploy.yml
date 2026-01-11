@@ -24,6 +24,57 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install marked
+
+      - name: Create HTML pages from Markdown
+        run: |
+          node -e "
+          const fs = require('fs');
+          const { marked } = require('marked');
+          
+          // HTML template
+          const template = (content, title) => \`<!DOCTYPE html>
+          <html lang=\"ru\">
+          <head>
+              <meta charset=\"UTF-8\">
+              <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+              <title>\${title} — Вайб-кодинг</title>
+              <link rel=\"stylesheet\" href=\"/course-platform/css/style.css\">
+              <link rel=\"stylesheet\" href=\"/course-platform/css/markdown.css\">
+              <style>
+                  body { background: #f8fafc; padding: 40px 20px; }
+                  .markdown-container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; padding: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+                  .back-link { display: inline-flex; align-items: center; gap: 8px; color: #6366f1; text-decoration: none; font-size: 14px; margin-bottom: 24px; }
+                  .back-link:hover { text-decoration: underline; }
+              </style>
+          </head>
+          <body>
+              <div class=\"markdown-container\">
+                  <a href=\"/course-platform/\" class=\"back-link\">← Назад к курсу</a>
+                  <div class=\"markdown-body\">\${content}</div>
+              </div>
+          </body>
+          </html>\`;
+          
+          // Process materials
+          const materials = fs.readdirSync('course-materials').filter(f => f.endsWith('.md'));
+          materials.forEach(file => {
+              const content = fs.readFileSync(\`course-materials/\${file}\`, 'utf8');
+              const title = content.match(/^#\s+(.+)$/m)?.[1] || file;
+              const html = template(marked.parse(content), title);
+              const outFile = file.replace('.md', '.html');
+              fs.writeFileSync(outFile, html);
+              console.log(\`Created: \${outFile}\`);
+          });
+          "
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
