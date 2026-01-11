@@ -24,6 +24,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout course materials
+        uses: actions/checkout@v4
+        with:
+          repository: uanitstudio/Vibecoder
+          path: course-source
+          token: ${{ secrets.GH_TOKEN }}
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -35,11 +42,16 @@ jobs:
 
       - name: Create HTML pages from Markdown
         run: |
+          # Create symlinks for course materials
+          ln -sf ../course-source/course/materials course-materials
+          ln -sf ../course-source/course/exercises course-exercises
+          ln -sf ../course-source/course/solutions course-solutions
+          
+          # Convert markdown to HTML
           node -e "
           const fs = require('fs');
           const { marked } = require('marked');
           
-          // HTML template
           const template = (content, title) => \`<!DOCTYPE html>
           <html lang=\"ru\">
           <head>
@@ -63,7 +75,6 @@ jobs:
           </body>
           </html>\`;
           
-          // Process materials
           const materials = fs.readdirSync('course-materials').filter(f => f.endsWith('.md'));
           materials.forEach(file => {
               const content = fs.readFileSync(\`course-materials/\${file}\`, 'utf8');
